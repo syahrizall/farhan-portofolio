@@ -40,6 +40,7 @@ const PORTFOLIO_DATA = {
     website: "",
     
     avatar: "assets/profile/profile.png",
+    logo: "assets/profile/system-administration.png",
     
     cvId: "assets/cv/cv-indonesia.pdf",
     
@@ -1453,16 +1454,10 @@ function renderNav() {
 
 function updateHeaderChrome() {
   const p = PORTFOLIO_DATA.profile;
-  const parts = (p.fullName || p.name || "FR").trim().split(/\s+/);
-  const initials = parts
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-
+  const parts = (p.fullName || p.name || "").trim().split(/\s+/);
   const roleShort = loc(p.title).replace(/\s*\(.*\)\s*/, "").trim();
 
-  const logoMark = document.getElementById("logo-mark");
+  const logoImg = document.getElementById("logo-mark-img");
   const logoName = document.getElementById("logo-name");
   const logoRole = document.getElementById("logo-role");
   const navToggleLabel = document.getElementById("nav-toggle-label");
@@ -1470,7 +1465,10 @@ function updateHeaderChrome() {
   const mobileMenuCta = document.getElementById("mobile-menu-cta");
   const langLabel = document.getElementById("lang-toggle-label");
 
-  if (logoMark) logoMark.textContent = initials || "FR";
+  if (logoImg) {
+    logoImg.src = p.logo || p.avatar;
+    logoImg.alt = p.fullName;
+  }
   if (logoName) logoName.textContent = p.name || parts[0] || "";
   if (logoRole) logoRole.textContent = roleShort;
   if (navToggleLabel) navToggleLabel.textContent = t("menuToggle");
@@ -2016,16 +2014,25 @@ function bindCopyButtons() {
 
 function downloadVCard() {
   const p = PORTFOLIO_DATA.profile;
-  const vcard = [
+  const lines = [
     "BEGIN:VCARD",
     "VERSION:3.0",
     `FN:${p.fullName}`,
     `TITLE:${loc(p.title)}`,
-    `EMAIL:${p.email}`,
-    `URL:${p.website || window.location.origin}`,
-    "END:VCARD",
-  ].join("\n");
-  const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+    `EMAIL;TYPE=INTERNET:${p.email}`,
+  ];
+  if (p.whatsapp) {
+    lines.push(`TEL;TYPE=CELL:${p.whatsapp.replace(/\D/g, "")}`);
+  }
+  if (p.linkedin) lines.push(`URL:${p.linkedin}`);
+  if (p.github) lines.push(`URL:${p.github}`);
+  if (p.website) lines.push(`URL:${p.website}`);
+  else if (typeof window !== "undefined") lines.push(`URL:${window.location.origin}`);
+  const locText = loc(p.location);
+  if (locText) lines.push(`ADR;TYPE=HOME:;;${locText};;;;`);
+  lines.push("END:VCARD");
+
+  const blob = new Blob([lines.join("\n")], { type: "text/vcard;charset=utf-8" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = `${p.name.replace(/\s+/g, "-").toLowerCase()}.vcf`;

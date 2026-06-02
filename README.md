@@ -30,7 +30,7 @@ Website portfolio personal berbasis **HTML, CSS, dan Vanilla JavaScript** (tanpa
 │   ├── projects/
 │   ├── certificates/
 │   ├── company-logos/
-│   └── documents/
+│   └── documents/     ← opsional: file statis (vCard manual, dll.)
 └── README.md
 ```
 
@@ -52,6 +52,7 @@ Lalu buka `http://localhost:8080`.
 
 1. Edit objek **`PORTFOLIO_DATA`** di `js/app.js` (nama, email, pengalaman, proyek, dll.).
 2. Foto profil: `assets/profile/profile.png` (path di `PORTFOLIO_DATA.profile.avatar`).
+3. **vCard:** tidak perlu file `.vcf` di folder — dihasilkan otomatis dari `PORTFOLIO_DATA.profile` saat klik "Unduh vCard" di footer. Jika ingin file statis, simpan misalnya di `assets/documents/farhan.vcf` (opsional, tidak dipakai situs saat ini).
 3. Tambahkan PDF CV di `assets/cv/` (lihat `assets/cv/README.md`).
 4. Sesuaikan label UI di objek **`UI`** jika diperlukan.
 
