@@ -42,9 +42,9 @@ const PORTFOLIO_DATA = {
     avatar: "assets/profile/profile.png",
     logo: "assets/profile/system-administration.png",
     
-    cvId: "assets/cv/cv-indonesia.pdf",
+    cvId: "assets/cv/cv-farhan-rachmat-syahrizal-id.pdf",
     
-    cvEn: "assets/cv/cv-english.pdf",
+    cvEn: "assets/cv/cv-farhan-rachmat-syahrizal-en.pdf",
     },    
 
     summary: {
