@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Profile photo placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d9488"/>
+      <stop offset="100%" style="stop-color:#0369a1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg)"/>
+  <circle cx="200" cy="150" r="72" fill="rgba(255,255,255,0.9)"/>
+  <ellipse cx="200" cy="320" rx="110" ry="90" fill="rgba(255,255,255,0.9)"/>
+  <text x="200" y="385" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="18" font-weight="600">Ganti foto di assets/profile/</text>
+</svg>
