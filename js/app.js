@@ -427,251 +427,322 @@ const PORTFOLIO_DATA = {
 
         projects: [
           {
-          id: "galeri-kejuruan",
-          
-          name: "Galeri Kejuruan (BMTI)",
-          
-          type: {
-            id: "Learning Management System",
-            en: "Learning Management System",
-          },
-          
-          duration: {
-            id: "2024",
-            en: "2024",
-          },
-          
-          role: {
-            id: "Backend Developer",
-            en: "Backend Developer",
-          },
-          
-          featured: true,
-          
-          objective: {
-            id: "Membangun platform pembelajaran digital untuk pengelolaan materi, evaluasi peserta, dan sertifikasi.",
-            en: "Develop a digital learning platform for course management, participant evaluation, and certification.",
-          },
-          
-          problem: {
-            id: "Dibutuhkan sistem pembelajaran terpusat yang mampu mengelola materi, ujian, dan sertifikat secara digital.",
-            en: "A centralized learning platform was needed to manage learning materials, exams, and digital certificates.",
-          },
-          
-          solution: {
-            id: "Membangun backend Laravel lengkap dengan REST API, role management, progress tracking, ujian online, dan generate sertifikat PDF.",
-            en: "Built a Laravel backend with REST APIs, role management, progress tracking, online exams, and PDF certificate generation.",
-          },
-          
-          stack: [
-            "Laravel",
-            "PHP",
-            "MySQL",
-            "REST API"
-          ],
-          
-          responsibilities: {
-            id: [
-              "Merancang struktur database",
-              "Mengembangkan backend service",
-              "Membangun REST API",
-              "Mengembangkan fitur ujian online",
-              "Generate sertifikat PDF otomatis"
+            id: "jr-apps",
+        
+            featured: true,
+        
+            name: "JR Apps (Jasa Raharja)",
+        
+            type: {
+              id: "Middleware & Integrasi Sistem",
+              en: "Middleware & System Integration",
+            },
+        
+            duration: {
+              id: "2026",
+              en: "2026",
+            },
+        
+            role: {
+              id: "Software Engineer",
+              en: "Software Engineer",
+            },
+        
+            description: {
+              id: "Aplikasi middleware yang mengotomatisasi pemrosesan transaksi perbankan untuk integrasi sistem internal Jasa Raharja.",
+              en: "Middleware application that automates banking transaction processing for Jasa Raharja's internal system integrations.",
+            },
+        
+            stack: [
+              "Laravel",
+              "PostgreSQL",
+              "Docker",
+              "REST API",
+              "SFTP",
+              "Laravel Scheduler"
             ],
-          
-            en: [
-              "Designed database structure",
-              "Developed backend services",
-              "Built REST APIs",
-              "Implemented online examination features",
-              "Generated automated PDF certificates"
-            ],
+        
+            highlights: {
+              id: [
+                "Mengambil file transaksi dari SFTP",
+                "Memproses dan memetakan data MT940",
+                "Menyimpan data ke PostgreSQL",
+                "Menyediakan REST API untuk sistem internal",
+                "Otomatisasi proses dengan Laravel Scheduler",
+              ],
+        
+              en: [
+                "Retrieves transaction files from SFTP",
+                "Parses and maps MT940 transaction data",
+                "Persists data to PostgreSQL",
+                "Exposes REST APIs for internal systems",
+                "Automates workflows with Laravel Scheduler",
+              ],
+            },
           },
-          
-          results: {
-            id: [
-              "Platform pembelajaran berhasil digunakan oleh peserta pelatihan BMTI",
-              "Mendukung manajemen materi, ujian, dan sertifikasi secara digital"
-            ],
-          
-            en: [
-              "Successfully delivered a digital learning platform",
-              "Enabled digital course, examination, and certification management"
-            ],
-          },
-          
-          links: {
-            demo: "",
-            repo: "",
-          },
-          
-          },
-          
+        
           {
-          id: "jr-apps",
-          
-          name: "JR Apps (Jasa Raharja)",
-          
-          type: {
-            id: "Middleware & System Integration",
-            en: "Middleware & System Integration",
-          },
-          
-          duration: {
-            id: "2025",
-            en: "2025",
-          },
-          
-          role: {
-            id: "Software Engineer",
-            en: "Software Engineer",
-          },
-          
-          featured: true,
-          
-          objective: {
-            id: "Mengotomatisasi pemrosesan data transaksi perbankan untuk kebutuhan integrasi internal.",
-            en: "Automate banking transaction processing for internal system integrations.",
-          },
-          
-          problem: {
-            id: "Data transaksi bank perlu diproses otomatis dan tersedia untuk berbagai sistem internal.",
-            en: "Bank transaction data needed automated processing and integration across internal systems.",
-          },
-          
-          solution: {
-            id: "Membangun middleware Laravel yang mengambil file dari SFTP, memproses MT940, menyimpan data ke PostgreSQL, dan menyediakan REST API.",
-            en: "Built a Laravel middleware that retrieves files from SFTP, parses MT940 data, stores data in PostgreSQL, and exposes REST APIs.",
-          },
-          
-          stack: [
-            "Laravel",
-            "PostgreSQL",
-            "Docker",
-            "SFTP",
-            "Scheduler"
-          ],
-          
-          responsibilities: {
-            id: [
-              "Mengembangkan aplikasi fullstack",
-              "Integrasi SFTP",
-              "Parsing file MT940",
-              "Membangun REST API",
-              "Mengelola PostgreSQL",
-              "Otomatisasi proses menggunakan Scheduler"
+            id: "galeri-kejuruan",
+        
+            featured: true,
+        
+            name: "Galeri Kejuruan (BMTI)",
+        
+            type: {
+              id: "Learning Management System",
+              en: "Learning Management System",
+            },
+        
+            duration: {
+              id: "2024",
+              en: "2024",
+            },
+        
+            role: {
+              id: "Backend Developer",
+              en: "Backend Developer",
+            },
+        
+            description: {
+              id: "Platform pembelajaran digital untuk pengelolaan materi, evaluasi peserta, pelacakan progres, dan sertifikasi online.",
+              en: "Digital learning platform for course management, participant evaluation, progress tracking, and online certification.",
+            },
+        
+            stack: [
+              "Laravel",
+              "MySQL",
+              "REST API"
             ],
-          
-            en: [
-              "Developed fullstack application",
-              "Implemented SFTP integration",
-              "Built MT940 parser",
-              "Developed REST APIs",
-              "Managed PostgreSQL database",
-              "Automated processes using Scheduler"
-            ],
+        
+            highlights: {
+              id: [
+                "Manajemen peran (Admin, Instruktur, Peserta)",
+                "Pelacakan progres pembelajaran",
+                "Ujian online berbasis waktu",
+                "Pembuatan sertifikat PDF otomatis",
+                "Perancangan backend dan basis data dari nol",
+              ],
+        
+              en: [
+                "Role management (Admin, Instructor, Participant)",
+                "Learning progress tracking",
+                "Timed online examinations",
+                "Automated PDF certificate generation",
+                "Backend architecture and database design from scratch",
+              ],
+            },
           },
-          
-          results: {
-            id: [
-              "Mengotomatisasi proses pengolahan transaksi perbankan",
-              "Mempermudah integrasi data dengan sistem internal"
-            ],
-          
-            en: [
-              "Automated banking transaction processing",
-              "Simplified internal system integration"
-            ],
-          },
-          
-          links: {
-            demo: "",
-            repo: "",
-          },
-          
-          },
-          
+        
           {
-          id: "mail-management",
-          
-          name: "Mail Management (Polri)",
-          
-          type: {
-            id: "Enterprise Application",
-            en: "Enterprise Application",
-          },
-          
-          duration: {
-            id: "2025",
-            en: "2025",
-          },
-          
-          role: {
-            id: "Backend Developer",
-            en: "Backend Developer",
-          },
-          
-          featured: true,
-          
-          objective: {
-            id: "Meningkatkan efisiensi pengelolaan akun email dan administrasi pegawai.",
-            en: "Improve email account management and employee administration efficiency.",
-          },
-          
-          problem: {
-            id: "Pengelolaan email dan data pegawai dilakukan secara terpisah sehingga membutuhkan proses manual.",
-            en: "Email management and employee data were handled separately, requiring manual processes.",
-          },
-          
-          solution: {
-            id: "Membangun backend Laravel yang terintegrasi dengan data SIPP serta mendukung otomatisasi email pensiun.",
-            en: "Built a Laravel backend integrated with SIPP data and retirement email automation.",
-          },
-          
-          stack: [
-            "Laravel",
-            "PostgreSQL",
-            "SMTP",
-            "REST API"
-          ],
-          
-          responsibilities: {
-            id: [
-              "Integrasi data pegawai dari SIPP",
-              "Pengelolaan akun email",
-              "Pengembangan REST API",
-              "Otomatisasi email pensiun",
-              "Manajemen database PostgreSQL"
+            id: "mail-management",
+        
+            featured: true,
+        
+            name: "Mail Management (Polri)",
+        
+            type: {
+              id: "Aplikasi Enterprise",
+              en: "Enterprise Application",
+            },
+        
+            duration: {
+              id: "2026",
+              en: "2026",
+            },
+        
+            role: {
+              id: "Backend Developer",
+              en: "Backend Developer",
+            },
+        
+            description: {
+              id: "Sistem manajemen email terintegrasi dengan data pegawai untuk mendukung administrasi dan otomatisasi komunikasi internal.",
+              en: "Email management system integrated with employee data to support administration and internal communication automation.",
+            },
+        
+            stack: [
+              "Laravel",
+              "PostgreSQL",
+              "SMTP",
+              "REST API"
             ],
-          
-            en: [
-              "Integrated employee data from SIPP",
-              "Managed email accounts",
-              "Developed REST APIs",
-              "Implemented retirement email automation",
-              "Managed PostgreSQL database"
+        
+            highlights: {
+              id: [
+                "Sinkronisasi data pegawai dari SIPP",
+                "Manajemen akun email pegawai",
+                "Otomatisasi email pensiun",
+                "Integrasi REST API",
+                "Pengelolaan basis data PostgreSQL",
+              ],
+        
+              en: [
+                "SIPP employee data synchronization",
+                "Employee email account management",
+                "Retirement email automation",
+                "REST API integration",
+                "PostgreSQL database management",
+              ],
+            },
+          },
+        
+          {
+            id: "satu-data",
+        
+            featured: true,
+        
+            name: "Satu Data (PDAM)",
+        
+            type: {
+              id: "Sistem Informasi Pemerintah",
+              en: "Government Information System",
+            },
+        
+            duration: {
+              id: "2026",
+              en: "2026",
+            },
+        
+            role: {
+              id: "Backend Developer",
+              en: "Backend Developer",
+            },
+        
+            description: {
+              id: "Platform pengelolaan data proyek infrastruktur untuk mendukung transparansi informasi dan kebutuhan investor.",
+              en: "Infrastructure project data platform that supports information transparency and investor reporting.",
+            },
+        
+            stack: [
+              "Laravel",
+              "PostgreSQL",
+              "REST API"
             ],
+        
+            highlights: {
+              id: [
+                "Data proyek air bersih",
+                "Data pengelolaan sampah",
+                "Data pengelolaan limbah",
+                "Integrasi REST API",
+                "Dashboard data terpusat",
+              ],
+        
+              en: [
+                "Clean water infrastructure data",
+                "Waste management data",
+                "Sanitation project data",
+                "REST API integration",
+                "Centralized data dashboard",
+              ],
+            },
           },
-          
-          results: {
-            id: [
-              "Meningkatkan efisiensi administrasi email",
-              "Mendukung proses otomatisasi komunikasi internal"
+        
+          {
+            id: "telkomsel-qa",
+        
+            featured: true,
+        
+            name: "QA Automation — Telkomsel Ecosystem",
+        
+            type: {
+              id: "Otomasi Quality Assurance",
+              en: "Quality Assurance Automation",
+            },
+        
+            duration: {
+              id: "2024 – 2025",
+              en: "2024 – 2025",
+            },
+        
+            role: {
+              id: "QA Automation Engineer",
+              en: "QA Automation Engineer",
+            },
+        
+            description: {
+              id: "Pengujian otomatis dan penjaminan kualitas untuk berbagai aplikasi dalam ekosistem Telkomsel.",
+              en: "Automation testing and quality assurance for multiple applications within the Telkomsel ecosystem.",
+            },
+        
+            stack: [
+              "Katalon Studio",
+              "Postman",
+              "Jira"
             ],
-          
-            en: [
-              "Improved email administration efficiency",
-              "Supported internal communication automation"
+        
+            highlights: {
+              id: [
+                "Pengujian otomatis (automation testing)",
+                "Pengujian fungsional",
+                "Pengujian regresi",
+                "Pengujian API",
+                "Pengujian lintas platform (Android, iOS, Chrome, Safari)",
+              ],
+        
+              en: [
+                "Automation testing",
+                "Functional testing",
+                "Regression testing",
+                "API testing",
+                "Cross-platform testing (Android, iOS, Chrome, Safari)",
+              ],
+            },
+          },
+        
+          {
+            id: "finance-saas",
+        
+            featured: true,
+        
+            name: "Finance SaaS",
+        
+            type: {
+              id: "Proyek Personal",
+              en: "Personal Project",
+            },
+        
+            duration: {
+              id: "2026",
+              en: "2026",
+            },
+        
+            role: {
+              id: "Founder & Full-stack Developer",
+              en: "Founder & Full-stack Developer",
+            },
+        
+            description: {
+              id: "Aplikasi pencatatan keuangan berbasis SaaS untuk membantu individu dan UMKM mengelola keuangan secara lebih terstruktur.",
+              en: "SaaS financial tracking application built to help individuals and small businesses manage their finances in a structured way.",
+            },
+        
+            stack: [
+              "Laravel",
+              "PostgreSQL",
+              "Tailwind CSS",
+              "AI-Assisted Development"
             ],
+        
+            highlights: {
+              id: [
+                "Pengembangan full-stack",
+                "Sistem multi-pengguna",
+                "Laporan keuangan",
+                "Antarmuka modern dengan Tailwind CSS",
+                "Pengembangan berbantuan AI",
+              ],
+        
+              en: [
+                "Full-stack development",
+                "Multi-user system",
+                "Financial reporting",
+                "Modern UI with Tailwind CSS",
+                "AI-assisted development",
+              ],
+            },
           },
-          
-          links: {
-            demo: "",
-            repo: "",
-          },
-          
-          },
-          ],
+        ],
           
           caseStudies: [
             {
@@ -693,8 +764,8 @@ const PORTFOLIO_DATA = {
             },
             
             duration: {
-              id: "2025",
-              en: "2025",
+              id: "2026",
+              en: "2026",
             },
             
             problem: {
@@ -820,8 +891,8 @@ const PORTFOLIO_DATA = {
             },
             
             duration: {
-              id: "2025",
-              en: "2025",
+              id: "2026",
+              en: "2026",
             },
             
             problem: {
@@ -883,8 +954,8 @@ const PORTFOLIO_DATA = {
             },
             
             duration: {
-              id: "2024",
-              en: "2024",
+              id: "2024 – 2025",
+              en: "2024 – 2025",
             },
             
             problem: {
@@ -931,18 +1002,41 @@ const PORTFOLIO_DATA = {
 
           timeline: [
           {
-          year: "2025",
-          type: "career",
+          year: "2026",
+          type: "project",
           title: {
-          id: "Pengembangan JR Apps & Mail Management",
-          en: "JR Apps & Mail Management Development",
+          id: "JR Apps & Mail Management",
+          en: "JR Apps & Mail Management",
           },
           desc: {
-          id: "Jasa Raharja dan Polri",
-          en: "Jasa Raharja and Indonesian National Police",
+          id: "Middleware Jasa Raharja · Sistem email Polri",
+          en: "Jasa Raharja middleware · Indonesian National Police mail system",
           },
           },
-          
+          {
+          year: "2024 – 2025",
+          type: "project",
+          title: {
+          id: "QA Automation — Telkomsel Ecosystem",
+          en: "QA Automation — Telkomsel Ecosystem",
+          },
+          desc: {
+          id: "Automation testing dengan Katalon Studio",
+          en: "Automation testing with Katalon Studio",
+          },
+          },
+          {
+          year: "2024",
+          type: "project",
+          title: {
+          id: "Galeri Kejuruan (BMTI)",
+          en: "Galeri Kejuruan (BMTI)",
+          },
+          desc: {
+          id: "Backend Learning Management System",
+          en: "Learning Management System backend",
+          },
+          },
           {
           year: "2024",
           type: "career",
@@ -951,37 +1045,10 @@ const PORTFOLIO_DATA = {
           en: "Software Engineer",
           },
           desc: {
-          id: "PT Anaheim Nimbus Universal",
-          en: "PT Anaheim Nimbus Universal",
+          id: "PT Anaheim Nimbus Universal · Jan 2024 – Sekarang",
+          en: "PT Anaheim Nimbus Universal · Jan 2024 – Present",
           },
           },
-          
-          {
-          year: "2024",
-          type: "project",
-          title: {
-          id: "Galeri Kejuruan",
-          en: "Galeri Kejuruan",
-          },
-          desc: {
-          id: "Backend Learning Management System BMTI",
-          en: "Backend Learning Management System for BMTI",
-          },
-          },
-          
-          {
-          year: "2024",
-          type: "project",
-          title: {
-          id: "QA Automation Telkomsel Ecosystem",
-          en: "Telkomsel Ecosystem QA Automation",
-          },
-          desc: {
-          id: "Automation testing menggunakan Katalon Studio",
-          en: "Automation testing using Katalon Studio",
-          },
-          },
-          
           {
           year: "2023",
           type: "education",
@@ -1176,6 +1243,7 @@ const UI = {
     whatICanHelp: "Yang Dapat Saya Bantu",
     projectsTitle: "Portofolio Proyek",
     featuredProjectsTitle: "Proyek Unggulan",
+    projectHighlights: "Sorotan Utama",
     businessObjective: "Tujuan Bisnis",
     problem: "Masalah",
     solution: "Solusi",
@@ -1286,6 +1354,7 @@ const UI = {
     whatICanHelp: "What I Can Help With",
     projectsTitle: "Project Portfolio",
     featuredProjectsTitle: "Featured Projects",
+    projectHighlights: "Key Highlights",
     businessObjective: "Business Objective",
     problem: "Problem",
     solution: "Solution",
@@ -1680,17 +1749,25 @@ function renderServices() {
 }
 
 function projectCard(proj, featured = false) {
+  const legacyDetail = proj.objective
+    ? `<dl class="project-detail">
+        <dt>${esc(t("businessObjective"))}</dt><dd>${esc(loc(proj.objective))}</dd>
+        <dt>${esc(t("problem"))}</dt><dd>${esc(loc(proj.problem))}</dd>
+        <dt>${esc(t("solution"))}</dt><dd>${esc(loc(proj.solution))}</dd>
+        <dt>${esc(t("results"))}</dt><dd><ul>${locList(proj.results).map((r) => `<li>${esc(r)}</li>`).join("")}</ul></dd>
+      </dl>`
+    : "";
+  const modernDetail = proj.description
+    ? `<p class="project-desc">${esc(loc(proj.description))}</p>
+       ${proj.highlights ? `<h4 class="project-highlights-title">${esc(t("projectHighlights"))}</h4><ul class="project-highlights">${locList(proj.highlights).map((h) => `<li>${esc(h)}</li>`).join("")}</ul>` : ""}`
+    : legacyDetail;
+
   return `
     <article class="card project-card ${featured ? "featured-card" : ""}">
       <span class="project-type">${esc(loc(proj.type))}</span>
       <h3>${esc(proj.name)}</h3>
       <p class="project-meta">${esc(t("duration"))}: ${esc(loc(proj.duration))} · ${esc(t("role"))}: ${esc(loc(proj.role))}</p>
-      <dl class="project-detail">
-        <dt>${esc(t("businessObjective"))}</dt><dd>${esc(loc(proj.objective))}</dd>
-        <dt>${esc(t("problem"))}</dt><dd>${esc(loc(proj.problem))}</dd>
-        <dt>${esc(t("solution"))}</dt><dd>${esc(loc(proj.solution))}</dd>
-        <dt>${esc(t("results"))}</dt><dd><ul>${locList(proj.results).map((r) => `<li>${esc(r)}</li>`).join("")}</ul></dd>
-      </dl>
+      ${modernDetail}
       <div class="stack">
         <strong>${esc(t("stack"))}:</strong>
         <ul class="badge-list">${proj.stack.map((tech) => `<li class="badge">${esc(tech)}</li>`).join("")}</ul>

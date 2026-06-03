@@ -1491,6 +1491,30 @@ body.nav-lock {
   margin-bottom: 0.75rem;
 }
 
+.project-card .project-desc {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+}
+
+.project-card .project-highlights-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  margin: 0 0 0.5rem;
+}
+
+.project-card .project-highlights {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
 .project-card .stack {
   margin-top: auto;
   padding-top: 1rem;
