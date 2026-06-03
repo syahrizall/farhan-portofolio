@@ -1005,12 +1005,36 @@ const PORTFOLIO_DATA = {
           year: "2026",
           type: "project",
           title: {
+          id: "Satu Data (PDAM)",
+          en: "Satu Data (PDAM)",
+          },
+          desc: {
+          id: "Platform data proyek infrastruktur PDAM",
+          en: "PDAM infrastructure project data platform",
+          },
+          },
+          {
+          year: "2026",
+          type: "project",
+          title: {
           id: "JR Apps & Mail Management",
           en: "JR Apps & Mail Management",
           },
           desc: {
           id: "Middleware Jasa Raharja · Sistem email Polri",
           en: "Jasa Raharja middleware · Indonesian National Police mail system",
+          },
+          },
+          {
+          year: "2026",
+          type: "project",
+          title: {
+          id: "Finance SaaS",
+          en: "Finance SaaS",
+          },
+          desc: {
+          id: "Proyek personal · Aplikasi pencatatan keuangan berbasis SaaS",
+          en: "Personal project · SaaS financial tracking application",
           },
           },
           {
@@ -1843,12 +1867,28 @@ function renderCaseStudies() {
     </div>`;
 }
 
+function timelineSortKey(year) {
+  const years = String(year).match(/\d{4}/g);
+  return years ? Math.max(...years.map(Number)) : 0;
+}
+
+function sortedTimeline() {
+  const items = PORTFOLIO_DATA.timeline || [];
+  return items
+    .map((item, index) => ({ item, index }))
+    .sort((a, b) => {
+      const byYear = timelineSortKey(b.item.year) - timelineSortKey(a.item.year);
+      return byYear !== 0 ? byYear : a.index - b.index;
+    })
+    .map(({ item }) => item);
+}
+
 function renderTimeline() {
   document.getElementById("timeline").innerHTML = `
     <div class="container">
       ${sectionHeaderInline("timeline-title", "careerTimeline")}
       <div class="career-timeline reveal">
-        ${PORTFOLIO_DATA.timeline.map((item) => `
+        ${sortedTimeline().map((item) => `
           <div class="career-timeline-item">
             <span class="year">${esc(item.year)}</span>
             <h4>${esc(loc(item.title))}</h4>
