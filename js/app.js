@@ -40,7 +40,6 @@ const PORTFOLIO_DATA = {
     website: "",
     
     avatar: "assets/profile/profile.png",
-    logo: "assets/profile/system-administration.png",
     
     cvId: "assets/cv/cv-farhan-rachmat-syahrizal-id.pdf",
     
@@ -1268,6 +1267,18 @@ const UI = {
     projectsTitle: "Portofolio Proyek",
     featuredProjectsTitle: "Proyek Unggulan",
     projectHighlights: "Sorotan Utama",
+    viewCaseStudy: "Lihat studi kasus",
+    closeLabel: "Tutup",
+    searchPlaceholder: "Cari section atau aksi…",
+    searchEmpty: "Tidak ada hasil.",
+    searchSections: "Section",
+    searchActions: "Aksi",
+    actionTheme: "Ganti tema terang/gelap",
+    actionLang: "Ganti bahasa (ID/EN)",
+    actionCopyEmail: "Salin alamat email",
+    actionCvId: "Unduh CV (Bahasa Indonesia)",
+    actionCvEn: "Unduh CV (English)",
+    actionVcard: "Unduh vCard",
     businessObjective: "Tujuan Bisnis",
     problem: "Masalah",
     solution: "Solusi",
@@ -1379,6 +1390,18 @@ const UI = {
     projectsTitle: "Project Portfolio",
     featuredProjectsTitle: "Featured Projects",
     projectHighlights: "Key Highlights",
+    viewCaseStudy: "View case study",
+    closeLabel: "Close",
+    searchPlaceholder: "Search sections or actions…",
+    searchEmpty: "No results.",
+    searchSections: "Sections",
+    searchActions: "Actions",
+    actionTheme: "Toggle light/dark theme",
+    actionLang: "Switch language (ID/EN)",
+    actionCopyEmail: "Copy email address",
+    actionCvId: "Download CV (Bahasa Indonesia)",
+    actionCvEn: "Download CV (English)",
+    actionVcard: "Download vCard",
     businessObjective: "Business Objective",
     problem: "Problem",
     solution: "Solution",
@@ -1438,13 +1461,13 @@ const UI = {
   },
 };
 
-/** Menu utama — ringkas, tanpa grup */
+/** Menu utama — ringkas; section lain dijangkau via command palette */
 const NAV_ITEMS = [
   "hero",
   "summary",
+  "skills",
   "experience",
   "projects",
-  "caseStudies",
   "contact",
 ];
 
@@ -1456,14 +1479,30 @@ const NAV_SECTION_MAP = {
   recruiter: "recruiter",
   metrics: "metrics",
   skills: "skills",
+  proficiency: "proficiency",
   experience: "experience",
   services: "services",
   projects: "projects",
-  caseStudies: "case-studies",
   timeline: "timeline",
   certifications: "certifications",
+  education: "education",
+  testimonials: "testimonials",
+  branding: "branding",
+  resume: "resume",
   contact: "contact",
 };
+
+/** Semua section yang bisa dicari lewat command palette */
+const SEARCHABLE_SECTIONS = Object.keys(NAV_SECTION_MAP);
+
+/** Tujuan utama untuk dock navigasi mobile */
+const DOCK_ITEMS = [
+  { key: "hero", icon: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>' },
+  { key: "projects", icon: '<rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/>' },
+  { key: "experience", icon: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>' },
+  { key: "resume", icon: '<path d="M14 3v5h5"/><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>' },
+  { key: "contact", icon: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/>' },
+];
 
 const SOCIAL_SVG = {
   linkedin: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>',
@@ -1550,7 +1589,7 @@ function updateHeaderChrome() {
   const parts = (p.fullName || p.name || "").trim().split(/\s+/);
   const roleShort = loc(p.title).replace(/\s*\(.*\)\s*/, "").trim();
 
-  const logoImg = document.getElementById("logo-mark-img");
+  const logoMark = document.getElementById("logo-mark-text");
   const logoName = document.getElementById("logo-name");
   const logoRole = document.getElementById("logo-role");
   const navToggleLabel = document.getElementById("nav-toggle-label");
@@ -1558,9 +1597,9 @@ function updateHeaderChrome() {
   const mobileMenuCta = document.getElementById("mobile-menu-cta");
   const langLabel = document.getElementById("lang-toggle-label");
 
-  if (logoImg) {
-    logoImg.src = p.logo || p.avatar;
-    logoImg.alt = p.fullName;
+  if (logoMark) {
+    const initials = parts.slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+    logoMark.textContent = initials || "F";
   }
   if (logoName) logoName.textContent = p.name || parts[0] || "";
   if (logoRole) logoRole.textContent = roleShort;
@@ -1658,15 +1697,15 @@ function renderRecruiter() {
     <div class="container">
       ${sectionHeaderInline("recruiter-title", "recruiterQuick")}
       <div class="recruiter-grid reveal">
-        <div class="recruiter-item"><strong>${r.yearsExperience}</strong><span>${esc(t("yearsExp"))}</span></div>
-        <div class="recruiter-item"><strong>${r.totalProjects}</strong><span>${esc(t("totalProjects"))}</span></div>
-        <div class="recruiter-item"><strong>${r.companies}</strong><span>${esc(t("companies"))}</span></div>
+        <div class="recruiter-item"><strong data-count="${r.yearsExperience}">${r.yearsExperience}</strong><span>${esc(t("yearsExp"))}</span></div>
+        <div class="recruiter-item"><strong data-count="${r.totalProjects}">${r.totalProjects}</strong><span>${esc(t("totalProjects"))}</span></div>
+        <div class="recruiter-item"><strong data-count="${r.companies}">${r.companies}</strong><span>${esc(t("companies"))}</span></div>
         <div class="recruiter-item"><strong>—</strong><span>${esc(loc(r.industries))}</span></div>
       </div>
       <div class="card-grid card-grid-3" style="margin-top:1.5rem">
-        <div class="card"><h3>${esc(t("mainExpertise"))}</h3><p>${esc(loc(r.expertise))}</p></div>
-        <div class="card"><h3>${esc(t("availability"))}</h3><p>${esc(loc(r.availability))}</p></div>
-        <div class="card">
+        <div class="card spotlight"><h3>${esc(t("mainExpertise"))}</h3><p>${esc(loc(r.expertise))}</p></div>
+        <div class="card spotlight"><h3>${esc(t("availability"))}</h3><p>${esc(loc(r.availability))}</p></div>
+        <div class="card spotlight">
           <h3>${currentLang === "id" ? "Preferensi Kerja" : "Work Preferences"}</h3>
           <ul>
             <li>${esc(t("fullTime"))}: ${esc(loc(r.workType.fullTime))}</li>
@@ -1687,8 +1726,12 @@ function renderMetrics() {
   document.getElementById("metrics").innerHTML = `
     <div class="container">
       ${sectionHeaderInline("metrics-title", "metricsDashboard")}
-      <div class="metrics-grid reveal">
-        ${values.map((v, i) => `<div class="metric-card"><div class="metric-value">${v}${i === 0 ? "+" : ""}</div><div class="metric-label">${esc(labels[i])}</div></div>`).join("")}
+      <div class="metrics-grid bento reveal">
+        ${values.map((v, i) => `
+          <div class="metric-card spotlight ${i === 0 ? "bento-item--hero" : ""} ${i === 1 ? "bento-item--wide" : ""}">
+            <div class="metric-value" data-count="${v}"${i === 0 ? ' data-suffix="+"' : ""}>${v}${i === 0 ? "+" : ""}</div>
+            <div class="metric-label">${esc(labels[i])}</div>
+          </div>`).join("")}
       </div>
     </div>`;
 }
@@ -1702,12 +1745,22 @@ function renderSkills() {
     { key: "devops", label: t("categoryDevops"), items: sk.devops },
     { key: "soft", label: t("categorySoft"), items: sk.soft },
   ];
+  const marqueeItems = [...sk.backend, ...sk.qa, ...sk.devops, ...sk.frontend];
+  const marqueeRow = marqueeItems.map((item) => `<span class="marquee__item">${esc(item)}</span>`).join("");
   document.getElementById("skills").innerHTML = `
     <div class="container">
       ${sectionHeaderInline("skills-title", "technicalSkills")}
+    </div>
+    <div class="marquee reveal" aria-hidden="true">
+      <div class="marquee__track">
+        <div class="marquee__group">${marqueeRow}</div>
+        <div class="marquee__group">${marqueeRow}</div>
+      </div>
+    </div>
+    <div class="container">
       <div class="skills-grid reveal">
         ${cats.map((c) => `
-          <div class="skill-card">
+          <div class="skill-card spotlight">
             <h3>${esc(c.label)}</h3>
             <ul class="badge-list">${c.items.map((item) => `<li class="badge">${esc(item)}</li>`).join("")}</ul>
           </div>`).join("")}
@@ -1761,10 +1814,10 @@ function renderServices() {
     <div class="container">
       ${sectionHeaderInline("services-title", "servicesTitle")}
       <div class="reveal">
-        <div class="service-grid">
-          <div class="service-block card"><h3>${esc(t("backendEng"))}</h3><ul class="badge-list">${s.backend[currentLang].map((x) => `<li class="badge">${esc(x)}</li>`).join("")}</ul></div>
-          <div class="service-block card"><h3>${esc(t("qualityAssurance"))}</h3><ul class="badge-list">${s.qa[currentLang].map((x) => `<li class="badge">${esc(x)}</li>`).join("")}</ul></div>
-          <div class="service-block card"><h3>${esc(t("techConsulting"))}</h3><ul class="badge-list">${s.consulting[currentLang].map((x) => `<li class="badge">${esc(x)}</li>`).join("")}</ul></div>
+        <div class="service-grid service-stack">
+          <div class="service-block card spotlight"><h3>${esc(t("backendEng"))}</h3><ul class="badge-list">${s.backend[currentLang].map((x) => `<li class="badge">${esc(x)}</li>`).join("")}</ul></div>
+          <div class="service-block card spotlight"><h3>${esc(t("qualityAssurance"))}</h3><ul class="badge-list">${s.qa[currentLang].map((x) => `<li class="badge">${esc(x)}</li>`).join("")}</ul></div>
+          <div class="service-block card spotlight"><h3>${esc(t("techConsulting"))}</h3><ul class="badge-list">${s.consulting[currentLang].map((x) => `<li class="badge">${esc(x)}</li>`).join("")}</ul></div>
         </div>
         <h3 style="margin-top:1.5rem">${esc(t("whatICanHelp"))}</h3>
         <ul class="help-list">${s.help[currentLang].map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
@@ -1786,8 +1839,16 @@ function projectCard(proj, featured = false) {
        ${proj.highlights ? `<h4 class="project-highlights-title">${esc(t("projectHighlights"))}</h4><ul class="project-highlights">${locList(proj.highlights).map((h) => `<li>${esc(h)}</li>`).join("")}</ul>` : ""}`
     : legacyDetail;
 
+  const study = caseStudyFor(proj.id);
+  const studyBtn = study
+    ? `<button type="button" class="project-case-btn" data-case="${esc(study.id)}">
+         ${esc(t("viewCaseStudy"))}
+         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+       </button>`
+    : "";
+
   return `
-    <article class="card project-card ${featured ? "featured-card" : ""}">
+    <article class="card project-card spotlight ${featured ? "featured-card" : ""}">
       <span class="project-type">${esc(loc(proj.type))}</span>
       <h3>${esc(proj.name)}</h3>
       <p class="project-meta">${esc(t("duration"))}: ${esc(loc(proj.duration))} · ${esc(t("role"))}: ${esc(loc(proj.role))}</p>
@@ -1796,6 +1857,7 @@ function projectCard(proj, featured = false) {
         <strong>${esc(t("stack"))}:</strong>
         <ul class="badge-list">${proj.stack.map((tech) => `<li class="badge">${esc(tech)}</li>`).join("")}</ul>
       </div>
+      ${studyBtn}
     </article>`;
 }
 
@@ -1806,65 +1868,50 @@ function renderProjects() {
       ${sectionHeaderInline("projects-title", "projectsTitle")}
       <div class="card-grid card-grid-2 reveal">${all.map((p) => projectCard(p)).join("")}</div>
     </div>`;
-  const featured = all.filter((p) => p.featured);
-  document.getElementById("featured-projects").innerHTML = `
-    <div class="container">
-      ${sectionHeaderInline("featured-projects-title", "featuredProjectsTitle")}
-      <div class="card-grid card-grid-2 reveal">${featured.map((p) => projectCard(p, true)).join("")}</div>
-    </div>`;
+  bindCaseButtons();
 }
 
-function projectToCaseStudy(project) {
-  const resp = project.responsibilities;
-  const respText = {
-    id: locList(resp).join("; "),
-    en: locList(resp).join("; "),
-  };
-  return {
-    id: `cs-${project.id}`,
-    featured: Boolean(project.featured),
-    name: project.name,
-    industry: project.type,
-    role: project.role,
-    duration: project.duration,
-    problem: project.problem,
-    analysis: {
-      id: `Analisis kebutuhan: ${loc(project.problem)} Solusi dirancang agar scalable, maintainable, dan selaras dengan proses bisnis.`,
-      en: `Requirements analysis: ${loc(project.problem)} Solution designed to be scalable, maintainable, and aligned with business processes.`,
-    },
-    solution: project.solution,
-    stack: project.stack,
-    contributions: respText,
-    results: project.results,
-  };
+function caseStudyFor(projectId) {
+  const studies = PORTFOLIO_DATA.caseStudies || [];
+  return studies.find((cs) => cs.id === `cs-${projectId}`) || null;
 }
 
-function renderCaseStudies() {
-  let all = PORTFOLIO_DATA.caseStudies || [];
-  if (!all.length && PORTFOLIO_DATA.projects?.length) {
-    all = PORTFOLIO_DATA.projects
-      .filter((p) => p.featured)
-      .map(projectToCaseStudy);
-  }
-  const featured = all.filter((c) => c.featured);
-  const list = featured.length ? featured : all;
-  const renderOne = (cs, isFeatured) => `
-    <article class="case-study ${isFeatured ? "featured" : ""}" id="${esc(cs.id)}">
-      <h3>${esc(cs.name)}</h3>
-      <p class="experience-meta">${esc(loc(cs.industry))} · ${esc(loc(cs.role))} · ${esc(loc(cs.duration))}</p>
-      <div class="case-section"><h4>${esc(t("businessProblem"))}</h4><p>${esc(loc(cs.problem))}</p></div>
-      <div class="case-section"><h4>${esc(t("analysis"))}</h4><p>${esc(loc(cs.analysis))}</p></div>
-      <div class="case-section"><h4>${esc(t("solution"))}</h4><p>${esc(loc(cs.solution))}</p></div>
-      <ul class="badge-list">${cs.stack.map((tech) => `<li class="badge">${esc(tech)}</li>`).join("")}</ul>
-      <div class="case-section"><h4>${esc(t("myContributions"))}</h4><p>${esc(loc(cs.contributions))}</p></div>
-      <div class="case-section"><h4>${esc(t("impact"))}</h4><ul class="achievement-list">${locList(cs.results).map((r) => `<li>${esc(r)}</li>`).join("")}</ul></div>
-    </article>`;
-  document.getElementById("case-studies").innerHTML = `
-    <div class="container">
-      ${sectionHeaderInline("case-studies-title", "caseStudiesTitle")}
-      ${list.length ? `<h3 class="reveal" style="margin-bottom:1rem">${esc(t("featuredCaseStudies"))}</h3>` : ""}
-      <div class="reveal">${list.length ? list.map((c) => renderOne(c, true)).join("") : `<p class="section-desc">${currentLang === "id" ? "Studi kasus akan segera ditambahkan." : "Case studies coming soon."}</p>`}</div>
-    </div>`;
+function caseStudyMarkup(cs) {
+  return `
+    <p class="case-dialog__eyebrow">${esc(t("caseStudiesTitle"))}</p>
+    <h3 id="case-dialog-title">${esc(cs.name)}</h3>
+    <p class="experience-meta">${esc(loc(cs.industry))} · ${esc(loc(cs.role))} · ${esc(loc(cs.duration))}</p>
+    <div class="case-section"><h4>${esc(t("businessProblem"))}</h4><p>${esc(loc(cs.problem))}</p></div>
+    <div class="case-section"><h4>${esc(t("analysis"))}</h4><p>${esc(loc(cs.analysis))}</p></div>
+    <div class="case-section"><h4>${esc(t("solution"))}</h4><p>${esc(loc(cs.solution))}</p></div>
+    <ul class="badge-list">${cs.stack.map((tech) => `<li class="badge">${esc(tech)}</li>`).join("")}</ul>
+    <div class="case-section"><h4>${esc(t("myContributions"))}</h4><p>${esc(loc(cs.contributions))}</p></div>
+    <div class="case-section"><h4>${esc(t("impact"))}</h4><ul class="achievement-list">${locList(cs.results).map((r) => `<li>${esc(r)}</li>`).join("")}</ul></div>`;
+}
+
+function openCaseStudy(caseId) {
+  const dialog = document.getElementById("case-dialog");
+  const body = document.getElementById("case-dialog-body");
+  const cs = (PORTFOLIO_DATA.caseStudies || []).find((c) => c.id === caseId);
+  if (!dialog || !body || !cs) return;
+  body.innerHTML = caseStudyMarkup(cs);
+  if (typeof dialog.showModal === "function") dialog.showModal();
+  else dialog.setAttribute("open", "");
+}
+
+function bindCaseButtons() {
+  document.querySelectorAll("[data-case]").forEach((btn) => {
+    btn.addEventListener("click", () => openCaseStudy(btn.getAttribute("data-case")));
+  });
+}
+
+function initCaseDialog() {
+  const dialog = document.getElementById("case-dialog");
+  if (!dialog) return;
+  document.getElementById("case-dialog-close")?.addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
 }
 
 function timelineSortKey(year) {
@@ -2024,8 +2071,6 @@ function fixSectionHeaders() {
     experience: "experienceTitle",
     services: "servicesTitle",
     projects: "projectsTitle",
-    "featured-projects": "featuredProjectsTitle",
-    "case-studies": "caseStudiesTitle",
     timeline: "careerTimeline",
     certifications: "certificationsTitle",
     education: "educationTitle",
@@ -2060,7 +2105,6 @@ function renderAll() {
   renderExperience();
   renderServices();
   renderProjects();
-  renderCaseStudies();
   renderTimeline();
   renderCertifications();
   renderEducation();
@@ -2070,12 +2114,16 @@ function renderAll() {
   renderCta();
   renderContact();
   fixSectionHeaders();
+  renderDock();
   updateFooter();
   updateStructuredData();
   bindCopyButtons();
   initReveal();
   updateLayoutMetrics();
   initProficiencyAnimate();
+  initCounters();
+  initSpotlight();
+  applyActiveNav();
 }
 
 function updateFooter() {
@@ -2157,18 +2205,62 @@ function downloadVCard() {
   URL.revokeObjectURL(a.href);
 }
 
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+/** Jalankan perubahan DOM di dalam View Transition bila didukung browser */
+function withViewTransition(update, options = {}) {
+  if (typeof document.startViewTransition !== "function" || prefersReducedMotion()) {
+    update();
+    return;
+  }
+  const root = document.documentElement;
+  if (options.className) root.classList.add(options.className);
+  const transition = document.startViewTransition(update);
+  transition.finished
+    .catch(() => {})
+    .finally(() => {
+      if (options.className) root.classList.remove(options.className);
+    });
+}
+
+/** Dark-first: gelap adalah default kecuali pengunjung memilih terang */
 function initTheme() {
   const saved = localStorage.getItem(STORAGE_THEME);
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const theme = saved || (prefersDark ? "dark" : "light");
+  const theme = saved === "light" ? "light" : "dark";
   document.documentElement.setAttribute("data-theme", theme);
+  syncThemeColor(theme);
+}
+
+function syncThemeColor(theme) {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", theme === "light" ? "#f5f6f3" : "#08090b");
 }
 
 function toggleTheme() {
   const current = document.documentElement.getAttribute("data-theme");
   const next = current === "dark" ? "light" : "dark";
-  document.documentElement.setAttribute("data-theme", next);
-  localStorage.setItem(STORAGE_THEME, next);
+  const apply = () => {
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem(STORAGE_THEME, next);
+    syncThemeColor(next);
+  };
+
+  const btn = document.getElementById("theme-toggle");
+  const rect = btn?.getBoundingClientRect();
+  const x = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
+  const y = rect ? rect.top + rect.height / 2 : 0;
+  const radius = Math.hypot(
+    Math.max(x, window.innerWidth - x),
+    Math.max(y, window.innerHeight - y)
+  );
+  const root = document.documentElement;
+  root.style.setProperty("--vt-x", `${x}px`);
+  root.style.setProperty("--vt-y", `${y}px`);
+  root.style.setProperty("--vt-r", `${radius}px`);
+
+  withViewTransition(apply, { className: "vt-theme" });
 }
 
 function initLang() {
@@ -2179,7 +2271,7 @@ function initLang() {
 function toggleLang() {
   currentLang = currentLang === "id" ? "en" : "id";
   localStorage.setItem(STORAGE_LANG, currentLang);
-  renderAll();
+  withViewTransition(() => renderAll(), { className: "vt-lang" });
 }
 
 function initScrollProgress() {
@@ -2303,30 +2395,269 @@ function initProficiencyAnimate() {
   bars.forEach((bar) => observer.observe(bar));
 }
 
+let activeSectionId = "hero";
+
+/** Terapkan penanda aktif ke menu desktop, menu mobile, dan dock */
+function applyActiveNav() {
+  document.querySelectorAll(".nav-link, .dock__item").forEach((a) => {
+    a.classList.toggle("is-active", a.getAttribute("href") === `#${activeSectionId}`);
+  });
+  updateNavIndicator();
+}
+
 function initActiveNav() {
-  const links = () => document.querySelectorAll(".nav-link");
-  const syncActive = (id) => {
-    links().forEach((a) => {
-      const active = a.getAttribute("href") === `#${id}`;
-      a.classList.toggle("is-active", active);
-    });
-  };
-  const sections = NAV_KEYS.map((k) => {
-    const id = k === "caseStudies" ? "case-studies" : k;
-    return document.getElementById(id);
-  }).filter(Boolean);
+  const sections = NAV_KEYS.map((k) => document.getElementById(NAV_SECTION_MAP[k] || k)).filter(Boolean);
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          syncActive(entry.target.id);
+          activeSectionId = entry.target.id;
+          applyActiveNav();
         }
       });
     },
     { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
   );
   sections.forEach((s) => observer.observe(s));
+}
+
+/** Pill geser di bawah menu desktop yang mengikuti link aktif */
+function updateNavIndicator() {
+  const indicator = document.getElementById("nav-indicator");
+  const menu = document.getElementById("nav-menu");
+  if (!indicator || !menu) return;
+  const active = menu.querySelector(".nav-link.is-active");
+  if (!active || !menu.offsetParent) {
+    indicator.style.opacity = "0";
+    return;
+  }
+  const menuRect = menu.getBoundingClientRect();
+  const rect = active.getBoundingClientRect();
+  indicator.style.opacity = "1";
+  indicator.style.width = `${rect.width}px`;
+  indicator.style.transform = `translateX(${rect.left - menuRect.left}px)`;
+}
+
+/** Angka metrik berhitung naik saat masuk viewport */
+function initCounters() {
+  const els = document.querySelectorAll("[data-count]");
+  if (!els.length) return;
+  if (prefersReducedMotion()) return;
+
+  const animate = (el) => {
+    const target = Number(el.getAttribute("data-count"));
+    if (!Number.isFinite(target)) return;
+    const suffix = el.getAttribute("data-suffix") || "";
+    const duration = 900;
+    const start = performance.now();
+    const step = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = `${Math.round(target * eased)}${suffix}`;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        animate(entry.target);
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.4 }
+  );
+  els.forEach((el) => observer.observe(el));
+}
+
+/** Glow yang mengikuti kursor pada kartu */
+function initSpotlight() {
+  if (initSpotlight.bound) return;
+  initSpotlight.bound = true;
+  if (!window.matchMedia("(hover: hover)").matches) return;
+
+  document.addEventListener(
+    "pointermove",
+    (e) => {
+      const card = e.target instanceof Element ? e.target.closest(".spotlight") : null;
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--spot-x", `${e.clientX - rect.left}px`);
+      card.style.setProperty("--spot-y", `${e.clientY - rect.top}px`);
+    },
+    { passive: true }
+  );
+}
+
+/** Dock navigasi mobile */
+function renderDock() {
+  const dock = document.getElementById("dock");
+  if (!dock) return;
+  const nav = UI[currentLang].nav;
+  dock.innerHTML = DOCK_ITEMS.map((item) => {
+    const target = NAV_SECTION_MAP[item.key] || item.key;
+    const label = nav[item.key] || item.key;
+    return `
+      <a class="dock__item" href="#${esc(target)}">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${item.icon}</svg>
+        <span class="dock__label">${esc(label)}</span>
+      </a>`;
+  }).join("");
+}
+
+/* ---------- Command palette (Ctrl/Cmd + K) ---------- */
+
+let cmdkIndex = 0;
+let cmdkResults = [];
+
+function copyEmail() {
+  const email = PORTFOLIO_DATA.profile.email;
+  navigator.clipboard
+    ?.writeText(email)
+    .then(() => showToast(t("copied")))
+    .catch(() => showToast(email));
+}
+
+function triggerDownload(href) {
+  if (!href) return;
+  const a = document.createElement("a");
+  a.href = href;
+  a.download = "";
+  a.click();
+}
+
+function cmdkItems() {
+  const nav = UI[currentLang].nav;
+  const p = PORTFOLIO_DATA.profile;
+  const sections = SEARCHABLE_SECTIONS.map((key) => ({
+    group: t("searchSections"),
+    label: nav[key] || key,
+    target: NAV_SECTION_MAP[key],
+  }));
+  const actions = [
+    { group: t("searchActions"), label: t("actionTheme"), run: toggleTheme },
+    { group: t("searchActions"), label: t("actionLang"), run: toggleLang },
+    { group: t("searchActions"), label: t("actionCopyEmail"), run: copyEmail },
+    { group: t("searchActions"), label: t("actionCvId"), run: () => triggerDownload(p.cvId) },
+    { group: t("searchActions"), label: t("actionCvEn"), run: () => triggerDownload(p.cvEn) },
+    { group: t("searchActions"), label: t("actionVcard"), run: downloadVCard },
+  ];
+  return [...sections, ...actions];
+}
+
+function renderCmdkResults(query) {
+  const list = document.getElementById("cmdk-list");
+  const empty = document.getElementById("cmdk-empty");
+  if (!list || !empty) return;
+
+  const q = query.trim().toLowerCase();
+  cmdkResults = cmdkItems().filter((item) => !q || item.label.toLowerCase().includes(q));
+  cmdkIndex = 0;
+
+  if (!cmdkResults.length) {
+    list.innerHTML = "";
+    empty.textContent = t("searchEmpty");
+    empty.hidden = false;
+    return;
+  }
+
+  empty.hidden = true;
+  let lastGroup = "";
+  list.innerHTML = cmdkResults
+    .map((item, i) => {
+      const heading = item.group !== lastGroup ? `<li class="cmdk__group" role="presentation">${esc(item.group)}</li>` : "";
+      lastGroup = item.group;
+      return `${heading}
+        <li class="cmdk__option ${i === 0 ? "is-active" : ""}" role="option" aria-selected="${i === 0}" data-index="${i}">
+          <span>${esc(item.label)}</span>
+          <span class="cmdk__enter" aria-hidden="true">↵</span>
+        </li>`;
+    })
+    .join("");
+}
+
+function highlightCmdk(next) {
+  const options = document.querySelectorAll(".cmdk__option");
+  if (!options.length) return;
+  cmdkIndex = (next + cmdkResults.length) % cmdkResults.length;
+  options.forEach((el) => {
+    const active = Number(el.getAttribute("data-index")) === cmdkIndex;
+    el.classList.toggle("is-active", active);
+    el.setAttribute("aria-selected", String(active));
+    if (active) el.scrollIntoView({ block: "nearest" });
+  });
+}
+
+function runCmdkItem(item) {
+  const dialog = document.getElementById("cmdk");
+  dialog?.close();
+  if (!item) return;
+  if (item.run) {
+    item.run();
+    return;
+  }
+  const section = document.getElementById(item.target);
+  section?.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
+}
+
+function openCmdk() {
+  const dialog = document.getElementById("cmdk");
+  const input = document.getElementById("cmdk-input");
+  if (!dialog || !input) return;
+  input.value = "";
+  input.placeholder = t("searchPlaceholder");
+  renderCmdkResults("");
+  if (typeof dialog.showModal === "function") dialog.showModal();
+  input.focus();
+}
+
+function initCmdk() {
+  const dialog = document.getElementById("cmdk");
+  const input = document.getElementById("cmdk-input");
+  const list = document.getElementById("cmdk-list");
+  const hint = document.getElementById("cmdk-hint");
+  if (!dialog || !input || !list) return;
+
+  const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+  if (hint) hint.textContent = isMac ? "⌘K" : "Ctrl K";
+
+  document.getElementById("cmdk-open")?.addEventListener("click", openCmdk);
+
+  document.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      if (dialog.open) dialog.close();
+      else openCmdk();
+    }
+  });
+
+  input.addEventListener("input", () => renderCmdkResults(input.value));
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      highlightCmdk(cmdkIndex + 1);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      highlightCmdk(cmdkIndex - 1);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      runCmdkItem(cmdkResults[cmdkIndex]);
+    }
+  });
+
+  list.addEventListener("click", (e) => {
+    const option = e.target instanceof Element ? e.target.closest(".cmdk__option") : null;
+    if (!option) return;
+    runCmdkItem(cmdkResults[Number(option.getAttribute("data-index"))]);
+  });
+
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
 }
 
 function initReveal() {
@@ -2356,6 +2687,10 @@ function init() {
   initHeaderScroll();
   initResponsive();
   initActiveNav();
+  initCaseDialog();
+  initCmdk();
+
+  window.addEventListener("resize", updateNavIndicator, { passive: true });
 
   document.getElementById("theme-toggle").addEventListener("click", toggleTheme);
   document.getElementById("lang-toggle").addEventListener("click", toggleLang);
